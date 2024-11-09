@@ -27,7 +27,7 @@ In secure JWTs, tampering with the payload or signature will cause a mismatch, p
 This vulnerability allowed attackers to modify payload data without generating a valid signature, creating risks like unauthorized access if, for instance, the username in the payload was changed from "guest" to "admin".
 
 *e.g.* We are logged in as "guest" with JWT token 
-    **eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg**
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0IiwiZXhwIjoxNzMxMTYzOTY5fQ.dHStDJLdo5WdnHADG75isaLTuHGuDn05q3S4HuuJQIg
 
 We want to log in as admin.
 
